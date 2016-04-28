@@ -27,7 +27,7 @@ public class QueryController {
 //    	System.out.println("success:"+person.getName());
     	String ip=getRemoteAddrIp(request);
 		System.out.println("访问者ip:"+ip);
-		return "success";
+		return "success访问成功！";
 	}
 	public static String getRemoteAddrIp(HttpServletRequest request) {
         String ipFromNginx = getHeader(request, "X-Real-IP");
