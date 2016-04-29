@@ -1,3 +1,6 @@
+/*
+ * spring版本的实现
+ */
 package com.goguoso.search.http;
 
 import java.io.IOException;
