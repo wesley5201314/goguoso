@@ -1,0 +1,11 @@
+.pagination>li>a, .pagination>li>span{margin-left:0.5rem}
+    ul,li{margin:5;padding-left:20px}
+    h1 {color:red}
+    b {color:blue}
+    h4,b {color:red}
+    em {color:red}
+    a:link { color: #0000cc; }
+    a:visited { color: #000080; }
+    a:active { color: #ff0000; }
+    .icondiv{ margin:0 auto;border:none;} 
+    .thumbnail{ border:none;}

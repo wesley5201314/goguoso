@@ -1,0 +1,433 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <base href="<%=basePath%>">   
+    <title>${querystr} -谷锅搜索 搜网盘 搜电影</title>
+    <meta charset="utf-8">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+	<meta http-equiv="description" content="This is my page">
+
+    <link href="../bootstrap/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link rel="shortcut icon" href="../bootstrap/bootstrap/favicon.ico">
+     <script type="text/javascript" src="../bootstrap/bootstrap/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bootstrap/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../bootstrap/bootstrap/js/json.js"></script>
+    <style type="text/css">
+    .pagination>li>a, .pagination>li>span{margin-left:0.5rem}
+    ul,li{margin:5;padding-left:20px}
+    h1 {color:red}
+    b {color:blue}
+    h4,b {color:red}
+    em {color:red}
+    a:link { color: #0000cc; }
+    a:visited { color: #000080; }
+    a:active { color: #ff0000; }
+    .icondiv{ margin:0 auto;border:none;} 
+    .thumbnail{ border:none;}
+    </style>
+    <script type="text/javascript" language="javascript">
+    //定义Map类，类似java的Map，主要存储网盘中文名到网盘英文缩写的映射
+    function Map(){
+    	this.container = new Object();
+    	}
+    	Map.prototype.put = function(key, value){
+    	this.container[key] = value;
+    	}
+    	Map.prototype.get = function(key){
+    	return this.container[key];
+    	}
+    	Map.prototype.keySet = function() {
+    	var keyset = new Array();
+    	var count = 0;
+    	for (var key in this.container) {
+    	// 跳过object的extend函数
+    	if (key == 'extend') {
+    	continue;
+    	}
+    	keyset[count] = key;
+    	count++;
+    	}
+    	return keyset;
+    	}
+    	Map.prototype.size = function() {
+    	var count = 0;
+    	for (var key in this.container) {
+    	// 跳过object的extend函数
+    	if (key == 'extend'){
+    	continue;
+    	}
+    	count++;
+    	}
+    	return count;
+    	}
+    	Map.prototype.remove = function(key) {
+    	delete this.container[key];
+    	}
+    	Map.prototype.toString = function(){
+    	var str = "";
+    	for (var i = 0, keys = this.keySet(), len = keys.length; i < len; i++) {
+    	str = str + keys[i] + "=" + this.container[keys[i]] + ";\n";
+    	}
+    	return str;
+    	}
+    	
+    var objmap=new Map();//存储搜索类型到搜索函数的映射
+    objmap.put('搜谷锅','guguosearch');
+    objmap.put('搜云盘','wangpansearch');
+    objmap.put('搜电影','dianyingsearch');
+    objmap.put('搜随书光盘','suishusearch');
+    var wpmap = new Map();//存储网盘中文名到网盘英文缩写的映射
+    wpmap.put('所有网盘','all');
+    wpmap.put('国内网盘','gn');
+    wpmap.put('国外网盘','gw');
+    wpmap.put('百度网盘','baipan');
+    wpmap.put('华为网盘','dbank');
+    wpmap.put('迅雷快传','kuaichuan');
+    wpmap.put('QQ旋风','xuanfeng');
+    wpmap.put('金山快盘','kuaipan');
+    wpmap.put('千脑网盘','qiannao');
+    wpmap.put('360云盘','360yun');
+    wpmap.put('腾讯微云','weiyun');
+    wpmap.put('一木禾网盘','yimuhe');
+    wpmap.put('城通网盘','ctdisk');
+    wpmap.put('千军万马','qjwm');
+    wpmap.put('新浪微盘','weibo');
+    wpmap.put('163网盘','163disk');
+    wpmap.put('乐视云盘','letv');
+    wpmap.put('YunFile网盘','yunfile');
+    wpmap.put('移动彩云网盘','caiyun');
+    wpmap.put('vdisk威盘','vdisk');
+    wpmap.put('115网盘','115');
+    wpmap.put('可乐云盘','everbox');
+    wpmap.put('hotfile.com','hotfile');
+    wpmap.put('rapidshare.com','rapidshare');
+    wpmap.put('oron.com','oron');
+    wpmap.put('uploaded.to','uploaded');
+    wpmap.put('easy-share.com','easy-share');
+    wpmap.put('uploading.com','uploading');
+    wpmap.put('turbobit.net','turbobit');
+    wpmap.put('fileserve.com','fileserve');
+    wpmap.put('enterupload.com','enterupload');
+    wpmap.put('4shared.com','4shared');
+
+    //搜索类型(google/网盘/电影)下拉框切换 参数：div的id,搜索类型
+    function searchobjtype(id,args)
+	{
+    //下拉框文本切换成选中的
+	if("search_obj"==id) 
+		$("#"+id).html(args);
+	else $("#"+id).html(args+"<span class=\"caret\"></span>");
+	if("搜云盘"==args) $("#wp_div").show();
+	else if("搜谷锅"==args) $("#wp_div").hide();
+	else if("搜电影"==args) $("#wp_div").hide();
+	else if("搜随书光盘"==args) $("#wp_div").hide();
+	}
+  //网盘下拉框切换(只对网盘搜索有效) 参数：div的id,搜索类型
+    function searchwangpantype(id,args)
+	{
+	if("search_obj"==id) 
+		$("#"+id).html(args);
+	else $("#"+id).html(args+"<span class=\"caret\"></span>");
+	wptype=wp_type;
+	}
+   
+  //定义一个将指向XMLHttpRequest对象的变量
+	var xmlHttp;	
+	//定义一个函数用于创建XMLHttpRequest对象
+	function createXMLHttpRequest() {
+	    if (window.ActiveXObject) {
+	        xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+	    } 
+	    else if (window.XMLHttpRequest) {
+	        xmlHttp = new XMLHttpRequest();
+	    }
+	}
+	//点击种子文件时调用，获得种子链接并跳转。输入参数：电影id
+    function downmovie(id){
+		createXMLHttpRequest();
+	    xmlHttp.open("POST", encodeURI("/guguosearch/welcome/guguo/downmovie?id="+id), true);
+	    xmlHttp.onreadystatechange = processSearch;
+	    //将JSON对象发送给服务端
+	    xmlHttp.send(null);
+       }
+       //处理搜索事务返回操作
+	function processSearch() {
+	    if(xmlHttp.readyState == 4) { //响应完成
+	        if(xmlHttp.status == 200) { //返回成功
+				//将服务端返回的结果解析成JSON对象
+				//alert("收到返回值"+xmlHttp.responseText);
+				returnJson= xmlHttp.responseText;
+				updateSearchGUI(returnJson);//打开下载窗口
+	        }
+	    }
+	}
+       //打开下载窗口，输入：电影种子url
+	function updateSearchGUI(json)
+	{
+		window.location=json;
+	}
+       //搜索函数
+		function dosearch() {
+			 var searchword=$("#search_word").val();//检索词
+			 var search_obj=objmap.get($.trim($("#search_obj").html()));//检索对象(google/网盘/电影)
+			 var wp_text=$.trim($("#wp_type").text());//网盘类型名称
+			 var wp_type=wpmap.get(wp_text);//网盘类型英文简写
+		//google/网盘/电影搜索分别处理
+           if(search_obj=='guguosearch') 		
+				window.location.href="/guguosearch/welcome/guguo/guguosearch?querystr="+searchword;
+           else if(search_obj=='dianyingsearch') 		
+				window.location.href="/guguosearch/welcome/guguo/dianyingsearch?querystr="+searchword;
+           else if(search_obj=='wangpansearch') 		
+				window.location.href="/guguosearch/welcome/guguo/wangpansearch?querystr="+searchword+"&wp_type="+wp_type+"&wp_text="+wp_text;
+		   else if(search_obj=='suishusearch')
+		        updateSearchGUI("http://202.38.93.29:8080/x1/"+searchword+".iso");
+		}
+       //页面跳转函数
+		function tiaozhuan(page) {
+			currentpage=page;
+			if(currentpage==0) return;//如果页面为0,则不操作
+			var searchword=$("#search_word").val();
+			 var search_obj=objmap.get($.trim($("#search_obj").html()));
+			 var wp_text=$.trim($("#wp_type").text());
+			 var wp_type=wpmap.get(wp_text);
+			if(search_obj=='guguosearch')
+			     window.location.href="/guguosearch/welcome/guguo/guguosearch?querystr="+searchword+"&page="+page;
+			else if(search_obj=='dianyingsearch')
+			     window.location.href="/guguosearch/welcome/guguo/dianyingsearch?querystr="+searchword+"&page="+page;
+			else if(search_obj=='wangpansearch') 
+				window.location.href="/guguosearch/welcome/guguo/wangpansearch?querystr="+searchword+"&page="+page+"&wp_type="+wp_type+"&wp_text="+wp_text;
+		}
+       //enter键触发搜索操作
+		function entersearch(){	        
+	        var event = window.event || arguments.callee.caller.arguments[0];
+	        if (event.keyCode == 13)
+	        {
+	        	dosearch();
+	        }
+	    }
+		//enter键响应
+		$(document).ready(function(){
+			$(".search_word").keypress(function (e) { 
+				var keyCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode; 
+				if (keyCode == 13){ 
+				//alert("响应键盘的enter事件"); 
+				dosearch();
+				} 
+				}); 
+			$("a.nowamagic").toggle(function(){
+		     	$(".stuff").hide('slow');
+		   	},function(){
+		     	$(".stuff").show('fast');
+		   	});
+		});
+		 function suggest(args)
+			{
+			 $("#search_word").val(args);
+			 dosearch();
+			}
+		function share(index)
+			{
+			     var query =$("#search_word").val();
+			     var dom=$("#result_"+index);//.eq(1).text();
+			     var title=dom.find("h4").text().trim();
+			     var desc=dom.find("p").text().trim();
+			     var url=dom.find("small").text().trim();
+			     alert(index+title);
+//                  localStorage.usrname=usrname;
+//                  localStorage.psword=psword;
+                 var json={query:query,url:url,title:title,desc:desc,mode:"share"};
+                 $.ajax({
+				 url:"/guguosearch/welcome/log" ,
+				 data:"json="+JSON.stringify(json),  
+				 success:function(data){
+					//alert(data);
+				  }
+			     });
+			}
+		function click(args)
+			{
+			 $("#search_word").val(args);
+			 dosearch();
+			}		
+    </script>
+  </head>
+<body style="padding-top: 80px;">
+<!--  顶部悬浮搜索框-->
+<nav class="navbar navbar-default navbar-fixed-top"  style="background:white">
+<div class="container">
+		<div class="row" style="padding-top: 15px;">
+		<!-- 左边logo -->
+		 <div class="col-md-2">
+				<a href="#" class="thumbnail"> <img src="../bootstrap/bootstrap/img/icon3.png" alt="..."> </a>
+		 </div>
+		 <!-- 检索输入框,应用的boostrap3.2输入框组组件input-group -->
+			<div class="col-md-5">
+				<div class="input-group col-md-12">
+				<!-- 搜索框 -->
+					<input id="search_word" type="text" class="form-control" aria-label="..." onkeydown="entersearch()" value="${querystr}">
+					
+					<div class="input-group-btn">
+					<ul class="dropdown-menu dropdown-menu-right" role="menu">
+					</ul>
+					</div>
+					<!-- /btn-group -->
+				</div>
+				<!-- /input-group -->
+			</div>
+			
+			<div class="col-md-2" id="obj_div">
+			<!-- 搜索类型选择框,应用的boostrap3.2按钮式下拉菜单input-group-btn -->
+				<div class="input-group-btn">
+					    <button id="search_obj" type="button" class="btn btn-primary" onClick="dosearch()">${search_obj_text} </button>
+						<button type="button" class="btn btn-primary dropdown-toggle"
+							data-toggle="dropdown" aria-expanded="false">
+							 <span class="caret"></span>
+                             <span class="sr-only">Toggle Dropdown</span>
+						</button>
+						<ul class="dropdown-menu dropdown-menu-right" role="menu">
+						<!-- 下拉选择框，搜谷歌/搜云盘/搜电影 -->
+							<li><a href="javascript:void(0)" onclick="searchobjtype('search_obj','搜云盘')">搜云盘</a>
+							</li>
+							<li class="divider"></li>
+							<li><a href="javascript:void(0)" onclick="searchobjtype('search_obj','搜谷锅')">搜谷锅</a>
+							</li>	
+							<li class="divider"></li>
+							<li><a href="javascript:void(0)" onclick="searchobjtype('search_obj','搜电影')">搜电影</a>
+							</li>
+							<li class="divider"></li>
+							<li><a href="javascript:void(0)" onclick="searchobjtype('search_obj','搜随书光盘')">搜随书光盘</a>
+							</li>						
+						</ul>
+					</div>
+			</div>
+			
+			<div class="col-md-2" id="wp_div"  style="display:${wp_div}">
+			<!-- 网盘类型选择框，非网盘模式时隐藏此div -->
+				<div class="btn-group">
+					<button id="wp_type" type="button" class="btn btn-default dropdown-toggle"
+						data-toggle="dropdown" aria-expanded="false">
+						${wp_text}<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+<li><a href="javascript:void(0)" onclick="searchwangpantype('wp_type','国内网盘')">国内网盘</li>
+<li><a href="javascript:void(0)" onclick="searchwangpantype('wp_type','国外网盘')">国外网盘</li>
+<li><a href="javascript:void(0)" onclick="searchwangpantype('wp_type','百度网盘')">百度网盘</li>
+<li><a href="javascript:void(0)" onclick="searchwangpantype('wp_type','华为网盘')">华为网盘</li>
+<li><a href="javascript:void(0)" onclick="searchwangpantype('wp_type','迅雷快传')">迅雷快传</li>
+<li><a href="javascript:void(0)" onclick="searchwangpantype('wp_type','QQ旋风')">QQ旋风</li>
+<li><a href="javascript:void(0)" onclick="searchwangpantype('wp_type','金山快盘')">金山快盘</li>
+<li><a href="javascript:void(0)" onclick="searchwangpantype('wp_type','千脑网盘')">千脑网盘</li>
+<li><a href="javascript:void(0)" onclick="searchwangpantype('wp_type','360云盘')">360云盘</li>
+<li><a href="javascript:void(0)" onclick="searchwangpantype('wp_type','腾讯微云')">腾讯微云</li>
+<li><a href="javascript:void(0)" onclick="searchwangpantype('wp_type','一木禾网盘')">一木禾网盘</li>
+<li><a href="javascript:void(0)" onclick="searchwangpantype('wp_type','城通网盘')">城通网盘</li>
+<li><a href="javascript:void(0)" onclick="searchwangpantype('wp_type','千军万马')">千军万马</li>
+<li><a href="javascript:void(0)" onclick="searchwangpantype('wp_type','新浪微盘')">新浪微盘</li>
+<li><a href="javascript:void(0)" onclick="searchwangpantype('wp_type','163网盘')">163网盘</li>
+<li><a href="javascript:void(0)" onclick="searchwangpantype('wp_type','乐视云盘')">乐视云盘</li>
+<li><a href="javascript:void(0)" onclick="searchwangpantype('wp_type','YunFile网盘')">YunFile网盘</li>
+<li><a href="javascript:void(0)" onclick="searchwangpantype('wp_type','移动彩云网盘')">移动彩云网盘</li>
+<li><a href="javascript:void(0)" onclick="searchwangpantype('wp_type','vdisk威盘')">vdisk威盘</li>
+<li><a href="javascript:void(0)" onclick="searchwangpantype('wp_type','115网盘')">115网盘</li>
+<li><a href="javascript:void(0)" onclick="searchwangpantype('wp_type','可乐云盘')">可乐云盘</li>
+
+					</ul>
+				</div>
+			</div>												
+		</div>
+		
+		
+		
+		
+     </div>
+     </nav>
+     <!-- 搜索结果展示 -->
+   <div  id="resultbody" class="container"  style="width: 80%; margin:0 auto;padding-top: 10px;" >
+   <c:if test="${size == 0}">
+						<p>没有查询到相关结果</p>
+   </c:if>
+   <c:if test="${size != 0}">  
+		<div class="row">
+			<div id="result" class="col-md-7">
+			 <c:forEach items="${results}" var="item" varStatus="cycleIndex">
+				<div class="media">
+					<div id="result_${cycleIndex.index}" class="media-body">
+						<h4 class="media-heading">
+						 <a href="javascript:void(0)" onclick="share(${cycleIndex.index})" class="tooltip-show" data-toggle="tooltip" title="添加到我的分享">
+                        <span class="glyphicon glyphicon-share"></span>
+                         </a>
+						 <a href=${item.url}  target=_blank>${item.title}</a>
+						</h4>
+						<p>${item.desc}</p>
+						<!-- 如果搜电影，则隐藏 -->
+						<c:if test="${search_obj_text != '搜电影'}">
+						<small>${item.url}</small>
+						</c:if>
+					</div>
+				</div>
+				</c:forEach>
+				
+			</div>
+			<div class="col-md-1"></div>
+			<div id="suggest_section" class="col-md-4" style="padding-top: 50px;">			 
+			 <c:forEach items="${suggest_results}" var="item" varStatus="cycleIndex">
+				<div class="media">
+					<div class="media-body">
+						<h5 class="media-heading"><a href=${item.url}  target=_blank>${item.title}</a></h5>
+					</div>
+				</div>
+				</c:forEach>
+				
+			</div>
+		</div>
+     
+     <!-- 分页展示 -->
+     <div id="pageblock">
+		<nav>
+		<!-- 分页区 -->
+			<ul class="pagination" id="page_block">
+				${pagHtml}
+			</ul>
+		</nav>
+	</div>
+	</c:if>
+	</div>
+	
+	<!-- 百度检索建议插件 -->
+	<script src="../bootstrap/bootstrap/suggest/bootstrap-suggest.js"></script>
+    <script type="text/javascript">
+    //百度搜索测试
+    var baiduBsSuggest = $("#search_word").bsSuggest({
+        allowNoKeyword: true, //是否允许无关键字时请求数据
+        multiWord: true, //以分隔符号分割的多关键字支持
+        separator: ",", //多关键字支持时的分隔符，默认为空格
+        getDataMethod: "url", //获取数据的方式，总是从 URL 获取
+        url: 'http://unionsug.baidu.com/su?p=3&t='+ (new Date()).getTime() +'&wd=', /*优先从url ajax 请求 json 帮助数据，注意最后一个参数为关键字请求参数*/
+	    jsonp: 'cb',/*如果从 url 获取数据，并且需要跨域，则该参数必须设置*/
+	    processData: function (json) {// url 获取数据时，对数据的处理，作为 getData 的回调函数
+	    	var i, len, data = {value: []};
+	        if (!json || !json.s || json.s.length === 0) {
+	        	return false;
+	        }
+
+	        console.log(json);
+	        len = json.s.length;
+	        
+	        jsonStr = "{'value':[";
+	        for (i = 0; i < len; i++) {
+	        	data.value.push({
+	        		word: json.s[i]
+	        	});
+	        }
+	        data.defaults = 'baidu';
+	 
+	        //字符串转化为 js 对象
+	        return data;
+	    }
+    });
+    </script>
+</body>
+</html>
