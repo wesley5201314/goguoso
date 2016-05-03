@@ -1,41 +1,259 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <title>${querystr} -谷锅搜索 搜网盘 搜电影</title>
+    <base href="<%=basePath%>">   
+    <title>谷锅搜索|谷歌搜索|网盘搜索-www.goguoso.com</title>
     <meta charset="utf-8">
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-
+	<meta http-equiv="keywords" content="谷歌搜索,网盘搜索,网盘,云盘,谷歌,百度网盘,华为网盘,最好用的谷歌和网盘搜索引擎">
+	<meta http-equiv="description" content="谷锅搜索,集成谷歌和国内外网盘搜索引擎,国内最稳定快捷的搜索器,一切资源，尽在谷锅搜索。。。">   
     <link href="http://www.goguoso.com/bootstrap/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link rel="shortcut icon" href="http://www.goguoso.com/bootstrap/bootstrap/favicon.ico">
      <script type="text/javascript" src="http://www.goguoso.com/bootstrap/bootstrap/js/jquery.min.js"></script>
+    <script type="text/javascript" src="http://www.goguoso.com/bootstrap/bootstrap/js/jquery.qrcode.min.js"></script>
     <script type="text/javascript" src="http://www.goguoso.com/bootstrap/bootstrap/js/bootstrap.min.js"></script>
-    <script src="http://www.goguoso.com/bootstrap/bootstrap/js/json.js"></script>
+<!--[if lt IE 9]>
+  <script src="http://www.goguoso.com/bootstrap/bootstrap/js/html5shiv.min.js"></script>
+  <script src="http://www.goguoso.com/bootstrap/bootstrap/js/respond.min.js"></script>
+<![endif]-->
+<!--[if lt IE 7]>
+    <link href="http://www.goguoso.com/bootstrap/bootstrap/css/bootstrap-ie7.css" rel="stylesheet">
+<![endif]-->
     <style type="text/css">
+    .pagination>li>a, .pagination>li>span{margin-left:0.5rem}
+    ul,li{margin:5;padding-left:20px}
+    h1 {color:red}
+    b {color:blue}
+    h4,b {color:red}
+    em {color:red}
+    a:link { color: #0000cc; }
+    a:visited { color: #000080; }
+    a:active { color: #ff0000; }
+    .icondiv{ margin:0 auto;border:none;} 
+    img{ border:none;}
+    .thumbnail{ border:none;}
     
     </style>
     <script type="text/javascript" language="javascript">
+    function Map(){
+    	this.container = new Object();
+    	}
+    	Map.prototype.put = function(key, value){
+    	this.container[key] = value;
+    	}
+    	Map.prototype.get = function(key){
+    	return this.container[key];
+    	}
+    	Map.prototype.keySet = function() {
+    	var keyset = new Array();
+    	var count = 0;
+    	for (var key in this.container) {
+    	// 跳过object的extend函数
+    	if (key == 'extend') {
+    	continue;
+    	}
+    	keyset[count] = key;
+    	count++;
+    	}
+    	return keyset;
+    	}
+    	Map.prototype.size = function() {
+    	var count = 0;
+    	for (var key in this.container) {
+    	// 跳过object的extend函数
+    	if (key == 'extend'){
+    	continue;
+    	}
+    	count++;
+    	}
+    	return count;
+    	}
+    	Map.prototype.remove = function(key) {
+    	delete this.container[key];
+    	}
+    	Map.prototype.toString = function(){
+    	var str = "";
+    	for (var i = 0, keys = this.keySet(), len = keys.length; i < len; i++) {
+    	str = str + keys[i] + "=" + this.container[keys[i]] + ";\n";
+    	}
+    	return str;
+    	}
     	
+    var objmap=new Map();
+    objmap.put('搜谷锅','guguosearch');
+    objmap.put('搜云盘','wangpansearch');
+    objmap.put('搜电影','dianyingsearch');
+    objmap.put('搜随书光盘','suishusearch');
+    var wpmap = new Map();
+    wpmap.put('所有网盘','all');
+    wpmap.put('国内网盘','gn');
+    wpmap.put('国外网盘','gw');
+    wpmap.put('百度网盘','baipan');
+    wpmap.put('华为网盘','dbank');
+    wpmap.put('迅雷快传','kuaichuan');
+    wpmap.put('QQ旋风','xuanfeng');
+    wpmap.put('金山快盘','kuaipan');
+    wpmap.put('千脑网盘','qiannao');
+    wpmap.put('360云盘','360yun');
+    wpmap.put('腾讯微云','weiyun');
+    wpmap.put('一木禾网盘','yimuhe');
+    wpmap.put('城通网盘','ctdisk');
+    wpmap.put('千军万马','qjwm');
+    wpmap.put('新浪微盘','weibo');
+    wpmap.put('163网盘','163disk');
+    wpmap.put('乐视云盘','letv');
+    wpmap.put('YunFile网盘','yunfile');
+    wpmap.put('移动彩云网盘','caiyun');
+    wpmap.put('vdisk威盘','vdisk');
+    wpmap.put('115网盘','115');
+    wpmap.put('可乐云盘','everbox');
+    wpmap.put('hotfile.com','hotfile');
+    wpmap.put('rapidshare.com','rapidshare');
+    wpmap.put('oron.com','oron');
+    wpmap.put('uploaded.to','uploaded');
+    wpmap.put('easy-share.com','easy-share');
+    wpmap.put('uploading.com','uploading');
+    wpmap.put('turbobit.net','turbobit');
+    wpmap.put('fileserve.com','fileserve');
+    wpmap.put('enterupload.com','enterupload');
+    wpmap.put('4shared.com','4shared');
+
+    function searchobjtype(id,args)
+	{
+	if("search_obj"==id) 
+		$("#"+id).html(args);
+	else $("#"+id).html(args+"<span class=\"caret\"></span>");
+	 if("搜云盘"==args) 
+	 {
+		 $("#wp_div").show();
+		 $("#suggest_div").hide();
+	 }
+	 else if("搜谷锅"==args) 
+	 {
+		 $("#wp_div").hide();
+		 $("#suggest_div").hide();
+	 }
+	 else if("搜电影"==args) 
+	 {
+	     $("#wp_div").hide();
+	     $("#suggest_div").show();	     
+	 }
+	 else if("搜随书光盘"==args) 
+	 {
+	     $("#wp_div").hide();
+	     $("#suggest_div").hide();
+	     $("#search_word").attr("placeholder","请输入书籍ISBN号");
+	 }
+	 if("搜随书光盘"!=args) $("#search_word").attr("placeholder","请输入检索词");
+	}
+    
+    function searchwangpantype(id,args)
+	{
+	if("search_obj"==id) 
+		$("#"+id).html(args);
+	else $("#"+id).html(args+"<span class=\"caret\"></span>");
+	wptype=wp_type;
+	}
+    function updateSearchGUI(json)
+	{
+		window.location=json;
+	}
+		function dosearch() {
+			 var searchword=$("#search_word").val();
+			 var search_obj=objmap.get($.trim($("#search_obj").html()));
+			 var wp_text=$.trim($("#wp_type").text());
+			 var wp_type=wpmap.get(wp_text);		
+           if(search_obj=='guguosearch') 		
+				window.location.href="/guguosearch/welcome/guguo/guguosearch?querystr="+searchword;
+           else if(search_obj=='dianyingsearch') 		
+				window.location.href="/guguosearch/welcome/guguo/dianyingsearch?querystr="+searchword;
+           else if(search_obj=='wangpansearch') 		
+				window.location.href="/guguosearch/welcome/guguo/wangpansearch?querystr="+searchword+"&wp_type="+wp_type+"&wp_text="+wp_text;
+           else if(search_obj=='suishusearch')
+		        updateSearchGUI("http://202.38.93.29:8080/x1/"+searchword+".iso");
+		}
+		function tiaozhuan(page) {
+			currentpage=page;
+			if(currentpage==0) return;
+			var searchword=$("#search_word").val();
+			 var search_obj=objmap.get($.trim($("#search_obj").html()));
+			 var wp_text=$.trim($("#wp_type").text());
+			 var wp_type=wpmap.get(wp_text);
+			if(search_obj=='guguosearch')
+			     window.location.href="/guguosearch/welcome/guguo/guguosearch?querystr="+searchword+"&page="+page;
+			else if(search_obj=='dianyingsearch')
+			     window.location.href="/guguosearch/welcome/guguo/dianyingsearch?querystr="+searchword+"&page="+page;
+			else if(search_obj=='wangpansearch') 
+				window.location.href="/guguosearch/welcome/guguo/wangpansearch?querystr="+searchword+"&page="+page+"&wp_type="+wp_type+"&wp_text="+wp_text;
+		}
+		function entersearch(){	        
+	        var event = window.event || arguments.callee.caller.arguments[0];
+	        if (event.keyCode == 13)
+	        {
+	        	dosearch();
+	        }
+	    }
+		$(document).ready(function(){
+		$("#codeand").qrcode({ 
+			    width: 120, //宽度 
+			    height:120, //高度 
+			    text: "http://pan.baidu.com/s/1gdyDorT", //任意内容 
+			    src: 'http://www.goguoso.com/bootstrap/bootstrap/img/and.png'
+			}); 
+			$("#codeios").qrcode({ 
+			    width: 120, //宽度 
+			    height:120, //高度 
+			    text: "http://pan.baidu.com/s/1ntACqOp", //任意内容 
+			    src: 'http://www.goguoso.com/bootstrap/bootstrap/img/ios.png'
+			});
+			$(".search_word").keypress(function (e) { 
+				var keyCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode; 
+				if (keyCode == 13){ 
+				//alert("响应键盘的enter事件"); 
+				dosearch();
+				} 
+				}); 
+			$("a.nowamagic").toggle(function(){
+		     	$(".stuff").hide('slow');
+		   	},function(){
+		     	$(".stuff").show('fast');
+		   	});
+		});
+		 function suggest(args)
+			{
+			 $("#search_word").val(args);
+			 dosearch();
+			}
     </script>
   </head>
-<body style="padding-top: 80px;">
-<!--  顶部悬浮搜索框-->
-<nav class="navbar navbar-default navbar-fixed-top"  style="background:white">
-<div class="container">
-		<div class="row" style="padding-top: 15px;">
-		<!-- 左边logo -->
-		 <div class="col-md-2">
-				<a href="#" class="thumbnail"> <img src="http://www.goguoso.com/bootstrap/bootstrap/img/icon3.png" alt="..."> </a>
-		 </div>
-		 <!-- 检索输入框,应用的boostrap3.2输入框组组件input-group -->
+<body>
+
+<div class="container"  style="border:none;padding:5px   10px" >
+		<div class="row">
+			<div class="icondiv">
+			<a href="#" class="thumbnail"> <img src="http://www.goguoso.com/bootstrap/bootstrap/img/icon1.png" alt="..."> </a>
+			</div>
+		</div>
+		<div id="share" class="row" style="margin-bottom:10px">
+		   <div class="bshare-custom"><a title="分享到QQ空间" class="bshare-qzone"></a><a title="分享到新浪微博" class="bshare-sinaminiblog"></a><a title="分享到人人网" class="bshare-renren"></a><a title="分享到腾讯微博" class="bshare-qqmb"></a><a title="分享到网易微博" class="bshare-neteasemb"></a><a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a><span class="BSHARE_COUNT bshare-share-count">0</span></div><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=3&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+        </div>
+		<div class="row">
+		<div class="col-md-3">
+				<div class="row">
+					<div class="pull-left">
+						<div id="codeand"></div>
+					</div>
+					<div class="pull-right">
+						<div id="codeios"></div>
+					</div>
+				</div>
+			</div>
 			<div class="col-md-5">
 				<div class="input-group col-md-12">
 				<!-- 搜索框 -->
-					<input id="search_word" type="text" class="form-control" aria-label="..." onkeydown="entersearch()" value="${querystr}">
-					
+					<input id="search_word" type="text" class="form-control" placeholder="请输入检索词.." onkeydown="entersearch()" value="${querystr}">
 					<div class="input-group-btn">
 					<ul class="dropdown-menu dropdown-menu-right" role="menu">
 					</ul>
@@ -46,7 +264,6 @@
 			</div>
 			
 			<div class="col-md-2" id="obj_div">
-			<!-- 搜索类型选择框,应用的boostrap3.2按钮式下拉菜单input-group-btn -->
 				<div class="input-group-btn">
 					    <button id="search_obj" type="button" class="btn btn-primary" onClick="dosearch()">${search_obj_text} </button>
 						<button type="button" class="btn btn-primary dropdown-toggle"
@@ -55,24 +272,23 @@
                              <span class="sr-only">Toggle Dropdown</span>
 						</button>
 						<ul class="dropdown-menu dropdown-menu-right" role="menu">
-						<!-- 下拉选择框，搜谷歌/搜云盘/搜电影 -->
+						<!-- 网盘 or 云盘选择下拉 -->
 							<li><a href="javascript:void(0)" onclick="searchobjtype('search_obj','搜云盘')">搜云盘</a>
 							</li>
 							<li class="divider"></li>
 							<li><a href="javascript:void(0)" onclick="searchobjtype('search_obj','搜谷锅')">搜谷锅</a>
-							</li>	
+							</li>
 							<li class="divider"></li>
 							<li><a href="javascript:void(0)" onclick="searchobjtype('search_obj','搜电影')">搜电影</a>
 							</li>
 							<li class="divider"></li>
 							<li><a href="javascript:void(0)" onclick="searchobjtype('search_obj','搜随书光盘')">搜随书光盘</a>
-							</li>						
+							</li>							
 						</ul>
 					</div>
 			</div>
 			
 			<div class="col-md-2" id="wp_div"  style="display:${wp_div}">
-			<!-- 网盘类型选择框，非网盘模式时隐藏此div -->
 				<div class="btn-group">
 					<button id="wp_type" type="button" class="btn btn-default dropdown-toggle"
 						data-toggle="dropdown" aria-expanded="false">
@@ -103,47 +319,24 @@
 
 					</ul>
 				</div>
-			</div>												
+			</div>		
+												
 		</div>
 		
 		
 		
 		
      </div>
-     </nav>
      <!-- 搜索结果展示 -->
-   <div  id="resultbody" class="container"  style="width: 80%; margin:0 auto;padding-top: 10px;" >
-   <c:if test="${size == 0}">
-						<p>没有查询到相关结果</p>
-   </c:if>
-   <c:if test="${size != 0}">  
+   <div class="container"  style="padding:5px   10px" >
 		<div class="row">
-			<div id="result" class="col-md-7">
+			<div class="col-md-7">
 			 <c:forEach items="${results}" var="item" varStatus="cycleIndex">
 				<div class="media">
-					<div id="result_${cycleIndex.index}" class="media-body">
-						<h4 class="media-heading">
-						 <a href="javascript:void(0)" onclick="share(${cycleIndex.index})" class="tooltip-show" data-toggle="tooltip" title="添加到我的分享">
-                        <span class="glyphicon glyphicon-share"></span>
-                         </a>
-						 <a href=${item.url}  target=_blank>${item.title}</a>
-						</h4>
-						<p>${item.desc}</p>
-						<!-- 如果搜电影，则隐藏 -->
-						<c:if test="${search_obj_text != '搜电影'}">
-						<small>${item.url}</small>
-						</c:if>
-					</div>
-				</div>
-				</c:forEach>
-				
-			</div>
-			<div class="col-md-1"></div>
-			<div id="suggest_section" class="col-md-4" style="padding-top: 50px;">			 
-			 <c:forEach items="${suggest_results}" var="item" varStatus="cycleIndex">
-				<div class="media">
 					<div class="media-body">
-						<h5 class="media-heading"><a href=${item.url}  target=_blank>${item.title}</a></h5>
+						<h4 class="media-heading"><a href=${item.url}  target=_blank>${item.title}</a></h4>
+						<p>${item.desc}</p>
+						<small>${item.url}</small>
 					</div>
 				</div>
 				</c:forEach>
@@ -151,8 +344,7 @@
 			</div>
 		</div>
      
-     <!-- 分页展示 -->
-     <div id="pageblock">
+     <div id="resultbody">
 		<nav>
 		<!-- 分页区 -->
 			<ul class="pagination" id="page_block">
@@ -160,10 +352,8 @@
 			</ul>
 		</nav>
 	</div>
-	</c:if>
 	</div>
-	
-	<!-- 百度检索建议插件 -->
+	<!-- 百度检索建议 -->
 	<script src="http://www.goguoso.com/bootstrap/bootstrap/suggest/bootstrap-suggest.js"></script>
     <script type="text/javascript">
     //百度搜索测试
@@ -196,5 +386,40 @@
 	    }
     });
     </script>
+	<div class="row" id="suggest_div" style="display:none">
+		<div class="col-md-4"></div>
+		<div class="col-md-6"  style="color:#FF0">
+		<a href="javascript:void(0)" onclick="suggest('末日崩塌')">末日崩塌</a>
+		<a href="javascript:void(0)" onclick="suggest('速度与激情7')">速度与激情7</a>
+		<a href="javascript:void(0)" onclick="suggest('复仇者联盟2')">复仇者联盟2</a>
+		<a href="javascript:void(0)" onclick="suggest('超能特工队')">超能特工队</a>
+		</div>
+	</div>
+
+	<div class="row">
+   <div class="col-md-3">
+   </div>
+			<div class="col-md-6"  style="text-align:center;">
+    <font size="2">
+    免责声明</br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本网站不保证信息的准确性、有效性、及时性和完整性。本网站及其雇员一概毋须以任何方式就任何信息传递或传送的失误、不准确或错误，对用户或任何其他人士负任何直接或间接责任。本网站的任何信息都是搜索引擎的结果，在法律允许的范围内，本网站在此声明，不承担用户或任何人士就使用或未能使用本网站所提供的信息或任何链接所引致的任何直接、间接、附带、从属、特殊、惩罚性或惩戒性的损害赔偿。
+</br> 
+电子邮件：goguoso@163.com
+</br>
+资源分享交流群：456646380
+</br>
+关注我的微博：搜谷锅
+</br>
+完美兼容Firefox、Chrome、Safari等，IE请用IE9及以上版本
+</br>
+keywords：<a href="http://www.goguoso.com/sitemap.html" title="网盘搜索"target="_blank"><strong>网盘搜索</strong></a> <a href="http://www.goguoso.com/sitemap.xml" title="谷歌搜索"target="_blank"><strong>谷歌搜索</strong></a>
+    </font>
+    </div>
+    </div>
+    <div class="row">
+      <div class="center-block" style="width:200px;font-color:gray;font-size:18px;font-weight:bold;letter-spacing:3px;">
+      谷锅<img src="../muiajax/icon/goguo.ico">搜索
+      </div>
+    </div>
 </body>
 </html>
