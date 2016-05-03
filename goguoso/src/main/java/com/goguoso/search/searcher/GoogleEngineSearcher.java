@@ -4,6 +4,10 @@
  */
 package com.goguoso.search.searcher;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
 import com.goguoso.search.http.HttpRest;
 
 public class GoogleEngineSearcher implements Searcher{
@@ -26,12 +30,16 @@ public class GoogleEngineSearcher implements Searcher{
 	/*
 	 * 将html解析成json
 	 */
-	public void doParseContentHtml(String context) {
-		
+	public String doParseContentHtml(String context) {
+		Document doc = Jsoup.parse(context);
+		Element table=doc.getElementById("mn");
+		table.select("tbody").first().remove();
+		table.getElementById("leftnav").remove();
+		return table.outerHtml();
 	}
 	public String doSearch(String stmt) {
 		String htmlContext=httpRest.get(this.siteUrl+stmt);
-		return htmlContext;
+		return doParseContentHtml(htmlContext);
 	}
 
 }

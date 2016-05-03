@@ -10,6 +10,7 @@
 	<meta http-equiv="description" content="This is my page">
 
     <link href="http://www.goguoso.com/bootstrap/bootstrap/css/bootstrap.css" rel="stylesheet">
+    	<link rel="stylesheet" type="text/css" href="css/google.css"/>
     <link rel="shortcut icon" href="http://www.goguoso.com/bootstrap/bootstrap/favicon.ico">
      <script type="text/javascript" src="http://www.goguoso.com/bootstrap/bootstrap/js/jquery.min.js"></script>
     <script type="text/javascript" src="http://www.goguoso.com/bootstrap/bootstrap/js/bootstrap.min.js"></script>
@@ -252,6 +253,7 @@
 			 dosearch();
 			}		
     </script>
+    <script>(function(){window.google={kEI:'wJYoV-XWG8OAuQSE47DoBA',kEXPI:'1350654,1350912,3700244,3700388,4029815,4031109,4032678,4036509,4036527,4038011,4039268,4042553,4042792,4043492,4045841,4048347,4049229,4049557,4051159,4052304,4054551,4056034,4056038,4057169,4057739,4057836,4058300,4058337,4058544,4059765,4060611,4061155,4061181,4061552,4062222,4062287,4062297,4062333,4062407,4062630,4062972,4062987,4063096,4063112,4063126,4063361,4063735,4063739,4063879,4064170,4064318,4064449,4064461,4064495,4064501,4064702,4064735,4064816,4064910,4064931,4065409,4065588,4065592,4065745,4065753,4065787,4065795,4065853,4065919,4066656,8300096,8300273,8502094,8503585,8504026,8504107,8504280,8504282,8504307,8504456,8504522,8504608,10200083,10200096,10201287,10201819',authuser:0,kscs:'c9c918f0_24'};google.kHL='zh-HK';})();(function(){google.lc=[];google.li=0;google.getEI=function(a){for(var b;a&&(!a.getAttribute||!(b=a.getAttribute("eid")));)a=a.parentNode;return b||google.kEI};google.getLEI=function(a){for(var b=null;a&&(!a.getAttribute||!(b=a.getAttribute("leid")));)a=a.parentNode;return b};google.https=function(){return"https:"==window.location.protocol};google.ml=function(){return null};google.wl=function(a,b){try{google.ml(Error(a),!1,b)}catch(c){}};google.time=function(){return(new Date).getTime()};google.log=function(a,b,c,e,g){a=google.logUrl(a,b,c,e,g);if(""!=a){b=new Image;var d=google.lc,f=google.li;d[f]=b;b.onerror=b.onload=b.onabort=function(){delete d[f]};window.google&&window.google.vel&&window.google.vel.lu&&window.google.vel.lu(a);b.src=a;google.li=f+1}};google.logUrl=function(a,b,c,e,g){var d="",f=google.ls||"";if(!c&&-1==b.search("&ei=")){var h=google.getEI(e),d="&ei="+h;-1==b.search("&lei=")&&((e=google.getLEI(e))?d+="&lei="+e:h!=google.kEI&&(d+="&lei="+google.kEI))}a=c||"/"+(g||"gen_204")+"?atyp=i&ct="+a+"&cad="+b+d+f+"&zx="+google.time();/^http:/i.test(a)&&google.https()&&(google.ml(Error("a"),!1,{src:a,glmm:1}),a="");return a};google.y={};google.x=function(a,b){google.y[a.id]=[a,b];return!1};google.load=function(a,b,c){google.x({id:a+k++},function(){google.load(a,b,c)})};var k=0;})();(function(){function b(){if(!google.dcl){google.dcl=!0;for(var a;a=c.shift();)a()}}var c=[function(){google.c&&google.tick("load","dcl")}];google.dcl=!1;google.dclc=function(a){google.dcl?a():c.push(a)};window.addEventListener?(document.addEventListener("DOMContentLoaded",b,!1),window.addEventListener("load",b,!1)):window.attachEvent&&window.attachEvent("onload",b)})();</script><script type="text/javascript"></script><script>(function(){var a=function(f){for(var g=f.parentElement,d=null,e=0;e<g.childNodes.length;e++){var h=g.childNodes[e];-1<(" "+h.className+" ").indexOf(" am-dropdown-menu ")&&(d=h)}"none"==d.style.display?(d.style.display="",google.log("hpam","&ved="+f.getAttribute("data-ved"))):d.style.display="none"},b=["google","sham"],c=this;b[0]in c||!c.execScript||c.execScript("var "+b[0]);for(var k;b.length&&(k=b.shift());)b.length||void 0===a?c[k]?c=c[k]:c=c[k]={}:c[k]=a;}).call(window);</script>
   </head>
 <body style="padding-top: 80px;">
 <!--  顶部悬浮搜索框-->
@@ -344,44 +346,311 @@
      </div>
      </nav>
      <!-- 搜索结果展示 -->
-   <div  id="resultbody" class="container"  style="width: 80%; margin:0 auto;padding-top: 10px;" >
-   <c:if test="${size == 0}">
-						<p>没有查询到相关结果</p>
-   </c:if>
-   <c:if test="${size != 0}">  
-		<div class="row">
-			<div id="result" class="col-md-7">
-			 <c:forEach items="${results}" var="item" varStatus="cycleIndex">
-				<div class="media">
-					<div id="result_${cycleIndex.index}" class="media-body">
-						<h4 class="media-heading">
-						 <a href="javascript:void(0)" onclick="share(${cycleIndex.index})" class="tooltip-show" data-toggle="tooltip" title="添加到我的分享">
-                        <span class="glyphicon glyphicon-share"></span>
-                         </a>
-						 <a href=${item.url}  target=_blank>${item.title}</a>
-						</h4>
-						<p>${item.desc}</p>
-						<!-- 如果搜电影，则隐藏 -->
-						<c:if test="${search_obj_text != '搜电影'}">
-						<small>${item.url}</small>
-						</c:if>
-					</div>
-				</div>
-				</c:forEach>
-				
-			</div>
-			<div class="col-md-1"></div>
-			<div id="suggest_section" class="col-md-4" style="padding-top: 50px;">			 
-			 <c:forEach items="${suggest_results}" var="item" varStatus="cycleIndex">
-				<div class="media">
-					<div class="media-body">
-						<h5 class="media-heading"><a href=${item.url}  target=_blank>${item.title}</a></h5>
-					</div>
-				</div>
-				</c:forEach>
-				
-			</div>
+   <div  id="resultbody" class="container" style="width: 80%; margin:0 auto;padding-top: 10px;" >
+   	<div class="row">
+   		<div class="col-md-12">   			   		
+   	<table id="mn" border="0" cellpadding="0" cellspacing="0" style="position:relative">
+ <tbody data-jibp="h" data-jiis="uc" id="desktop-search">
+  <style>._Bu,._Bu a:link,._Bu a:visited,a._Bu:link,a._Bu:visited{color:#808080}._kBb{color:#61C}.ellip{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}</style>
+  <tr>
+   <td valign="top">
+    <div id="center_col">
+     <div class="sd" id="resultStats">
+      約有 11,800,000 項結果
+     </div>
+     <div id="res">
+      <div id="topstuff"></div>
+      <div id="search">
+       <div id="ires">
+        <ol>
+         <div class="g">
+          <h3 class="r"><a href="/url?q=http://lucene.apache.org/solr/&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QFggTMAA&amp;usg=AFQjCNFcha_pa6VIUUoEgDwRqy_-h_Vgyg" target="_blank">Apache <b>Solr</b> - - Apache Lucene</a></h3>
+          <div class="s">
+           <div class="kv" style="margin-bottom:2px">
+            <cite>lucene.apache.org/<b>solr</b>/</cite>
+            <div class="_nBb">
+             <div style="display:inline" onclick="google.sham(this);" aria-expanded="false" aria-haspopup="true" tabindex="0" data-ved="0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q7B0IFDAA">
+              <span class="_O0"></span>
+             </div>
+             <div style="display:none" class="am-dropdown-menu" role="menu" tabindex="-1">
+              <ul>
+               <li class="_Ykb"><a class="_Zkb" href="/url?q=http://webcache.googleusercontent.com/search%3Fq%3Dcache:e7_8mazFbi0J:http://lucene.apache.org/solr/%252Bsolr%26newwindow%3D1%26client%3Daff-cs-360chromium%26hl%3Dzh-TW%26ct%3Dclnk&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QIAgWMAA&amp;usg=AFQjCNH32HfAt-4MXayi7Wh9G1CJGYOpRA" target="_blank">頁庫存檔</a></li>
+               <li class="_Ykb"><a class="_Zkb" href="/search?newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;q=related:lucene.apache.org/solr/+solr&amp;tbo=1&amp;sa=X&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QHwgXMAA">類似內容</a></li>
+              </ul>
+             </div>
+            </div>
+           </div>
+           <span class="st"><b>Solr</b> is highly reliable, scalable and fault tolerant, providing distributed indexing, <br> replication and load-balanced querying, automated failover and recovery,&nbsp;...</span>
+           <br>
+           <div class="osl">
+            <a href="/url?q=http://lucene.apache.org/solr/features.html&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q0gIIGSgAMAA&amp;usg=AFQjCNELMDAItxjnzf_PYIuThgkDf2Ws-w" target="_blank">Features</a> - 
+            <a href="/url?q=http://lucene.apache.org/solr/downloads.html&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q0gIIGigBMAA&amp;usg=AFQjCNFUerjnYY7WjLMF2hF8RpmVJGIHmA" target="_blank">Apache Solr - Downloads</a> - 
+            <a href="/url?q=http://www.apache.org/dyn/closer.cgi&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q0gIIGygCMAA&amp;usg=AFQjCNGN9xsky2qDE1HXSOWV2nVXil6nRA" target="_blank">Download</a> - 
+            <a href="/url?q=http://lucene.apache.org/solr/quickstart.html&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q0gIIHCgDMAA&amp;usg=AFQjCNF4zE3L8Ox9CuZdG00EJbw4RMVUxQ" target="_blank">Solr Quick Start</a>
+           </div>
+          </div>
+         </div>
+         <div class="g">
+          <h3 class="r"><a href="/url?q=http://lucene.apache.org/solr/features.html&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QFggeMAE&amp;usg=AFQjCNELMDAItxjnzf_PYIuThgkDf2Ws-w" target="_blank">Apache <b>Solr</b> - Features</a></h3>
+          <div class="s">
+           <div class="kv" style="margin-bottom:2px">
+            <cite>lucene.apache.org/<b>solr</b>/features.html</cite>
+            <div class="_nBb">
+             <div style="display:inline" onclick="google.sham(this);" aria-expanded="false" aria-haspopup="true" tabindex="0" data-ved="0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q7B0IHzAB">
+              <span class="_O0"></span>
+             </div>
+             <div style="display:none" class="am-dropdown-menu" role="menu" tabindex="-1">
+              <ul>
+               <li class="_Ykb"><a class="_Zkb" href="/url?q=http://webcache.googleusercontent.com/search%3Fq%3Dcache:GAKoInmS8QgJ:http://lucene.apache.org/solr/features.html%252Bsolr%26newwindow%3D1%26client%3Daff-cs-360chromium%26hl%3Dzh-TW%26ct%3Dclnk&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QIAghMAE&amp;usg=AFQjCNGeNQ_z1-wolq19MSQx85fwcISJrA" target="_blank">頁庫存檔</a></li>
+               <li class="_Ykb"><a class="_Zkb" href="/search?newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;q=related:lucene.apache.org/solr/features.html+solr&amp;tbo=1&amp;sa=X&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QHwgiMAE">類似內容</a></li>
+              </ul>
+             </div>
+            </div>
+           </div>
+           <span class="st"><b>Solr</b> is a standalone enterprise search server with a REST-like API. You put <br> documents in it (called "indexing") via JSON, XML, CSV or binary over HTTP.</span>
+           <br>
+          </div>
+         </div>
+         <div class="g">
+          <h3 class="r"><a href="/url?q=https://en.wikipedia.org/wiki/Apache_Solr&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QFggkMAI&amp;usg=AFQjCNHW1JaE9nTO2xAkhElKM3OxZYQISQ" target="_blank">Apache <b>Solr</b> - Wikipedia, the free encyclopedia</a></h3>
+          <div class="s">
+           <div class="kv" style="margin-bottom:2px">
+            <cite>https://en.wikipedia.org/wiki/Apache_<b>Solr</b></cite>
+            <div class="_nBb">
+             <div style="display:inline" onclick="google.sham(this);" aria-expanded="false" aria-haspopup="true" tabindex="0" data-ved="0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q7B0IJTAC">
+              <span class="_O0"></span>
+             </div>
+             <div style="display:none" class="am-dropdown-menu" role="menu" tabindex="-1">
+              <ul>
+               <li class="_Ykb"><a class="_Zkb" href="/url?q=http://webcache.googleusercontent.com/search%3Fq%3Dcache:8pjw6PhX-20J:https://en.wikipedia.org/wiki/Apache_Solr%252Bsolr%26newwindow%3D1%26client%3Daff-cs-360chromium%26hl%3Dzh-TW%26ct%3Dclnk&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QIAgnMAI&amp;usg=AFQjCNGmiX5xs2YISnLD7vhtSNkVTuBc8w" target="_blank">頁庫存檔</a></li>
+               <li class="_Ykb"><a class="_Zkb" href="/search?newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;q=related:https://en.wikipedia.org/wiki/Apache_Solr+solr&amp;tbo=1&amp;sa=X&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QHwgoMAI">類似內容</a></li>
+              </ul>
+             </div>
+            </div>
+           </div>
+           <span class="st"><b>Solr</b> (pronounced "solar") is an open source enterprise search platform, written in <br> Java, from the Apache Lucene project. Its major features include full-text&nbsp;...</span>
+           <br>
+          </div>
+         </div>
+         <div class="g">
+          <h3 class="r"><a href="/url?q=http://www.solrtutorial.com/solr-in-5-minutes.html&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QFggqMAM&amp;usg=AFQjCNFm44XPJuSOlpIOis0M1SGlSsR4xA" target="_blank"><b>Solr</b> in 5 minutes - SolrTutorial.com</a></h3>
+          <div class="s">
+           <div class="kv" style="margin-bottom:2px">
+            <cite>www.<b>solr</b>tutorial.com/<b>solr</b>-in-5-minutes.html</cite>
+            <div class="_nBb">
+             <div style="display:inline" onclick="google.sham(this);" aria-expanded="false" aria-haspopup="true" tabindex="0" data-ved="0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q7B0IKzAD">
+              <span class="_O0"></span>
+             </div>
+             <div style="display:none" class="am-dropdown-menu" role="menu" tabindex="-1">
+              <ul>
+               <li class="_Ykb"><a class="_Zkb" href="/url?q=http://webcache.googleusercontent.com/search%3Fq%3Dcache:LK4yZ0X4As8J:http://www.solrtutorial.com/solr-in-5-minutes.html%252Bsolr%26newwindow%3D1%26client%3Daff-cs-360chromium%26hl%3Dzh-TW%26ct%3Dclnk&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QIAgtMAM&amp;usg=AFQjCNFKtbDAx4IzaduNFCSHIMdzpW6OLw" target="_blank">頁庫存檔</a></li>
+               <li class="_Ykb"><a class="_Zkb" href="/search?newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;q=related:www.solrtutorial.com/solr-in-5-minutes.html+solr&amp;tbo=1&amp;sa=X&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QHwguMAM">類似內容</a></li>
+              </ul>
+             </div>
+            </div>
+           </div>
+           <span class="st"><b>Solr</b> in 5 minutes. <b>Solr</b> makes it easy to run a full-featured search server. In fact, <br> its so easy, I'm going to show you how in 5 minutes! Installing <b>Solr</b>; Starting <b>Solr</b>&nbsp;...</span>
+           <br>
+          </div>
+         </div>
+         <div class="g">
+          <h3 class="r"><a href="/url?q=http://www.lucenetutorial.com/lucene-vs-solr.html&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QFggwMAQ&amp;usg=AFQjCNFkftARb_qmGCcpx5Nq9CJO2BRuJg" target="_blank">Lucene vs <b>Solr</b> - Lucene Tutorial.com</a></h3>
+          <div class="s">
+           <div class="kv" style="margin-bottom:2px">
+            <cite>www.lucenetutorial.com/lucene-vs-<b>solr</b>.html</cite>
+            <div class="_nBb">
+             <div style="display:inline" onclick="google.sham(this);" aria-expanded="false" aria-haspopup="true" tabindex="0" data-ved="0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q7B0IMTAE">
+              <span class="_O0"></span>
+             </div>
+             <div style="display:none" class="am-dropdown-menu" role="menu" tabindex="-1">
+              <ul>
+               <li class="_Ykb"><a class="_Zkb" href="/url?q=http://webcache.googleusercontent.com/search%3Fq%3Dcache:2-XAGb5kd3IJ:http://www.lucenetutorial.com/lucene-vs-solr.html%252Bsolr%26newwindow%3D1%26client%3Daff-cs-360chromium%26hl%3Dzh-TW%26ct%3Dclnk&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QIAgzMAQ&amp;usg=AFQjCNE90JLEU1XomUS3Wzhk7De1rgyS9w" target="_blank">頁庫存檔</a></li>
+               <li class="_Ykb"><a class="_Zkb" href="/search?newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;q=related:www.lucenetutorial.com/lucene-vs-solr.html+solr&amp;tbo=1&amp;sa=X&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QHwg0MAQ">類似內容</a></li>
+              </ul>
+             </div>
+            </div>
+           </div>
+           <span class="st">A simple way to conceptualize the relationship between <b>Solr</b> and Lucene is that <br> of a car and its engine. You can't drive an engine, but you can drive a car.</span>
+           <br>
+          </div>
+         </div>
+         <div class="g">
+          <h3 class="r"><a href="/url?q=http://newsletter.ascc.sinica.edu.tw/news/read_news.php%3Fnid%3D2288&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QFgg2MAU&amp;usg=AFQjCNHTcF7Wzh_7HnhWPwn8oq9k2HVdkQ" target="_blank">詳全文_全文檢索伺服器<b>Solr</b>初探 - 電子報</a></h3>
+          <div class="s">
+           <div class="kv" style="margin-bottom:2px">
+            <cite>newsletter.ascc.sinica.edu.tw/news/read_news.php?nid=2288</cite>
+            <div class="_nBb">
+             <div style="display:inline" onclick="google.sham(this);" aria-expanded="false" aria-haspopup="true" tabindex="0" data-ved="0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q7B0INzAF">
+              <span class="_O0"></span>
+             </div>
+             <div style="display:none" class="am-dropdown-menu" role="menu" tabindex="-1">
+              <ul>
+               <li class="_Ykb"><a class="_Zkb" href="/url?q=http://webcache.googleusercontent.com/search%3Fq%3Dcache:kIjN0P4QH9oJ:http://newsletter.ascc.sinica.edu.tw/news/read_news.php%3Fnid%253D2288%252Bsolr%26newwindow%3D1%26client%3Daff-cs-360chromium%26hl%3Dzh-TW%26ct%3Dclnk&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QIAg5MAU&amp;usg=AFQjCNHFASmQR3V8fUQVbVrOMrQAhT4Zjg" target="_blank">頁庫存檔</a></li>
+               <li class="_Ykb"><a class="_Zkb" href="/search?newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;q=related:newsletter.ascc.sinica.edu.tw/news/read_news.php%3Fnid%3D2288+solr&amp;tbo=1&amp;sa=X&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QHwg6MAU">類似內容</a></li>
+              </ul>
+             </div>
+            </div>
+           </div>
+           <span class="st"><b>Solr</b>是開放源碼的全文檢索伺服器，以Lucene 程式庫為核心，進行全文資料的索引<br> 建立和搜尋執行；並且以HTTP協定的方式提供Web service，方便各種程式語言呼叫<br> &nbsp;...</span>
+           <br>
+          </div>
+         </div>
+         <div class="g">
+          <h3 class="r"><a href="/url?q=http://solr-vs-elasticsearch.com/&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QFgg8MAY&amp;usg=AFQjCNHFS5vAGQtjww7qgUQH5htO-r346w" target="_blank">Apache <b>Solr</b> vs Elasticsearch - the Feature Smackdown!</a></h3>
+          <div class="s">
+           <div class="kv" style="margin-bottom:2px">
+            <cite><b>solr</b>-vs-elasticsearch.com/</cite>
+            <div class="_nBb">
+             <div style="display:inline" onclick="google.sham(this);" aria-expanded="false" aria-haspopup="true" tabindex="0" data-ved="0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q7B0IPTAG">
+              <span class="_O0"></span>
+             </div>
+             <div style="display:none" class="am-dropdown-menu" role="menu" tabindex="-1">
+              <ul>
+               <li class="_Ykb"><a class="_Zkb" href="/url?q=http://webcache.googleusercontent.com/search%3Fq%3Dcache:HGM_LinQUG4J:http://solr-vs-elasticsearch.com/%252Bsolr%26newwindow%3D1%26client%3Daff-cs-360chromium%26hl%3Dzh-TW%26ct%3Dclnk&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QIAg_MAY&amp;usg=AFQjCNGDhfwxxQc5R0bU-KapMbKEXyPgBQ" target="_blank">頁庫存檔</a></li>
+               <li class="_Ykb"><a class="_Zkb" href="/search?newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;q=related:solr-vs-elasticsearch.com/+solr&amp;tbo=1&amp;sa=X&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QHwhAMAY">類似內容</a></li>
+              </ul>
+             </div>
+            </div>
+           </div>
+           <span class="st">Per-doc/query analyzer chain. Synonyms, Supports <b>Solr</b> and Wordnet synonym <br> format. Multiple indexes. Near-Realtime Search/Indexing. Complex documents.</span>
+           <br>
+          </div>
+         </div>
+         <div class="g">
+          <h3 class="r"><a href="/url?q=https://www.drupal.org/project/search_api_solr&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QFghCMAc&amp;usg=AFQjCNF0WdY2O3TJjioeSrzXBD2CaQlkDQ" target="_blank">Search API <b>Solr</b> Search | Drupal.org</a></h3>
+          <div class="s">
+           <div class="kv" style="margin-bottom:2px">
+            <cite>https://www.drupal.org/project/search_api_<b>solr</b></cite>
+            <div class="_nBb">
+             <div style="display:inline" onclick="google.sham(this);" aria-expanded="false" aria-haspopup="true" tabindex="0" data-ved="0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q7B0IQzAH">
+              <span class="_O0"></span>
+             </div>
+             <div style="display:none" class="am-dropdown-menu" role="menu" tabindex="-1">
+              <ul>
+               <li class="_Ykb"><a class="_Zkb" href="/url?q=http://webcache.googleusercontent.com/search%3Fq%3Dcache:UYtHSuBKv4cJ:https://www.drupal.org/project/search_api_solr%252Bsolr%26newwindow%3D1%26client%3Daff-cs-360chromium%26hl%3Dzh-TW%26ct%3Dclnk&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QIAhFMAc&amp;usg=AFQjCNEZ9_C7ziBsIofz6skuC3T7x07Zdw" target="_blank">頁庫存檔</a></li>
+               <li class="_Ykb"><a class="_Zkb" href="/search?newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;q=related:https://www.drupal.org/project/search_api_solr+solr&amp;tbo=1&amp;sa=X&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QHwhGMAc">類似內容</a></li>
+              </ul>
+             </div>
+            </div>
+           </div>
+           <span class="st">26 Nov 2010 <b>...</b> This module provides a <b>Solr</b> backend for the Search API module. The backend <br> uses, like the popular Apache <b>Solr</b> Search Integration module,&nbsp;...</span>
+           <br>
+          </div>
+         </div>
+         <div class="g">
+          <h3 class="r"><a href="/url?q=https://github.com/apache/lucene-solr&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QFghJMAg&amp;usg=AFQjCNH0biKYWevQJ6ug29y2g_M_s8dTEA" target="_blank">Mirror of Apache Lucene + <b>Solr</b> - GitHub</a></h3>
+          <div class="s">
+           <div class="kv" style="margin-bottom:2px">
+            <cite>https://github.com/apache/lucene-<b>solr</b></cite>
+            <div class="_nBb">
+             <div style="display:inline" onclick="google.sham(this);" aria-expanded="false" aria-haspopup="true" tabindex="0" data-ved="0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q7B0ISjAI">
+              <span class="_O0"></span>
+             </div>
+             <div style="display:none" class="am-dropdown-menu" role="menu" tabindex="-1">
+              <ul>
+               <li class="_Ykb"><a class="_Zkb" href="/url?q=http://webcache.googleusercontent.com/search%3Fq%3Dcache:dgMqnefRYJsJ:https://github.com/apache/lucene-solr%252Bsolr%26newwindow%3D1%26client%3Daff-cs-360chromium%26hl%3Dzh-TW%26ct%3Dclnk&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QIAhMMAg&amp;usg=AFQjCNGMxOTPy2783vAcOdgpba52Pksz2w" target="_blank">頁庫存檔</a></li>
+               <li class="_Ykb"><a class="_Zkb" href="/search?newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;q=related:https://github.com/apache/lucene-solr+solr&amp;tbo=1&amp;sa=X&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QHwhNMAg">類似內容</a></li>
+              </ul>
+             </div>
+            </div>
+           </div>
+           <span class="st">Mirror of Apache Lucene + <b>Solr</b>. Contribute to lucene-<b>solr</b> development by <br> creating an account on GitHub.</span>
+           <br>
+          </div>
+         </div>
+         <div class="g">
+          <table class="ts">
+           <tbody>
+            <tr>
+             <td colspan="2"><h3 class="r"><a href="/url?q=https://www.youtube.com/watch%3Fv%3D7WIbU3ZlTe4&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QtwIIUDAJ&amp;usg=AFQjCNGQLa7yO7O5Px4Wgf7qqdAuR0uVmA" target="_blank">Apache <b>Solr</b> Tutorial for Beginners - 1 | Apche <b>Solr</b> Tutorial - 1 <b>...</b></a></h3></td>
+            </tr>
+            <tr>
+             <td valign="top" width="1" style="padding:4px 8px 0 0">
+              <div class="th" style="position:relative;overflow:hidden;width:116px;height:65px">
+               <a href="/url?q=https://www.youtube.com/watch%3Fv%3D7WIbU3ZlTe4&amp;sa=U&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4QuAIIUTAJUAE&amp;usg=AFQjCNGQLa7yO7O5Px4Wgf7qqdAuR0uVmA" target="_blank">
+                <div style="margin-top:-11px">
+                 <img src="https://img.youtube.com/vi/7WIbU3ZlTe4/default.jpg?h=90&amp;w=120&amp;sigh=__9OQy9qOUxLJR8Xb95eDU0GNEv4c=" width="116" alt="solr的影片" align="middle">
+                </div>
+                <div style="position:absolute;bottom:0;right:0;font-size:11px;color:#fff;background-color:#222;padding:1px 3px;text-decoration:none;font-weight:bold;text-align:right">
+                 ► 120:21
+                </div></a>
+              </div></td>
+             <td valign="top" style="padding-top:1px"><cite class="kv">https://www.youtube.com/watch?v=7WIbU3ZlTe4</cite><span class="st"><span class="f"><span class="nobr">2015年1月30日</span> - <span class="nobr">120 分鐘</span> - <span class="nobr">上傳者：edureka!</span></span><br>Watch the sample class recording: http://www.edureka.co/apache-<b>solr</b>? utm_source=youtube <b>...</b></span></td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+        </ol>
+       </div>
+      </div>
+     </div>
+     <div style="clear:both;margin-bottom:17px;overflow:hidden">
+      <div style="font-size:16px;padding:0 8px 1px">
+       與「
+       <b>solr</b>」相關的搜尋查詢
+      </div>
+      <table border="0" cellpadding="0" cellspacing="0">
+       <tbody>
+        <tr>
+         <td valign="top"><p class="_Bmc" style="margin:3px 8px"><a href="/search?newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;q=solr+%E6%95%99%E7%A8%8B&amp;revid=2049778946&amp;sa=X&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q1QIIVCgA">solr 教程</a></p></td>
+         <td valign="top" style="padding-left:10px"><p class="_Bmc" style="margin:3px 8px"><a href="/search?newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;q=solr%E4%B8%AD%E6%96%87&amp;revid=2049778946&amp;sa=X&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q1QIIVSgB">solr中文</a></p></td>
+        </tr>
+        <tr>
+         <td valign="top"><p class="_Bmc" style="margin:3px 8px"><a href="/search?newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;q=solr%E6%95%99%E5%AD%B8&amp;revid=2049778946&amp;sa=X&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q1QIIVigC">solr教學</a></p></td>
+         <td valign="top" style="padding-left:10px"><p class="_Bmc" style="margin:3px 8px"><a href="/search?newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;q=nutch+solr&amp;revid=2049778946&amp;sa=X&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q1QIIVygD">nutch solr</a></p></td>
+        </tr>
+        <tr>
+         <td valign="top"><p class="_Bmc" style="margin:3px 8px"><a href="/search?newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;q=lucene&amp;revid=2049778946&amp;sa=X&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q1QIIWCgE">lucene</a></p></td>
+         <td valign="top" style="padding-left:10px"><p class="_Bmc" style="margin:3px 8px"><a href="/search?newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;q=solr%E4%B8%AD%E6%96%87%E5%88%86%E8%A9%9E&amp;revid=2049778946&amp;sa=X&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q1QIIWSgF">solr中文分詞</a></p></td>
+        </tr>
+        <tr>
+         <td valign="top"><p class="_Bmc" style="margin:3px 8px"><a href="/search?newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;q=solr%E5%AE%89%E8%A3%9D&amp;revid=2049778946&amp;sa=X&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q1QIIWigG">solr安裝</a></p></td>
+         <td valign="top" style="padding-left:10px"><p class="_Bmc" style="margin:3px 8px"><a href="/search?newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;q=apache+solr%E4%B8%AD%E6%96%87&amp;revid=2049778946&amp;sa=X&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q1QIIWygH">apache solr中文</a></p></td>
+        </tr>
+        <tr>
+         <td valign="top"><p class="_Bmc" style="margin:3px 8px"><a href="/search?newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;q=lucene+solr&amp;revid=2049778946&amp;sa=X&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q1QIIXCgI">lucene solr</a></p></td>
+         <td valign="top" style="padding-left:10px"><p class="_Bmc" style="margin:3px 8px"><a href="/search?newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;q=solrcloud&amp;revid=2049778946&amp;sa=X&amp;ved=0ahUKEwjFrcXMg77MAhWQHo4KHfjmAP4Q1QIIXSgJ">solrcloud</a></p></td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div id="foot">
+     <table align="center" border="0" cellpadding="0" cellspacing="0" id="nav">
+      <tbody>
+       <tr valign="top">
+        <td align="left" class="b"><span class="csb" style="background-position:-24px 0;width:28px"></span><b></b></td>
+        <td><span class="csb" style="background-position:-53px 0;width:20px"></span><b>1</b></td>
+        <td><a class="fl" href="/search?q=solr&amp;newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;prmd=ivns&amp;ei=16koV4XmEZC9uAT4zYPwDw&amp;start=10&amp;sa=N"><span class="csb" style="background-position:-74px 0;width:20px"></span>2</a></td>
+        <td><a class="fl" href="/search?q=solr&amp;newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;prmd=ivns&amp;ei=16koV4XmEZC9uAT4zYPwDw&amp;start=20&amp;sa=N"><span class="csb" style="background-position:-74px 0;width:20px"></span>3</a></td>
+        <td><a class="fl" href="/search?q=solr&amp;newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;prmd=ivns&amp;ei=16koV4XmEZC9uAT4zYPwDw&amp;start=30&amp;sa=N"><span class="csb" style="background-position:-74px 0;width:20px"></span>4</a></td>
+        <td><a class="fl" href="/search?q=solr&amp;newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;prmd=ivns&amp;ei=16koV4XmEZC9uAT4zYPwDw&amp;start=40&amp;sa=N"><span class="csb" style="background-position:-74px 0;width:20px"></span>5</a></td>
+        <td><a class="fl" href="/search?q=solr&amp;newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;prmd=ivns&amp;ei=16koV4XmEZC9uAT4zYPwDw&amp;start=50&amp;sa=N"><span class="csb" style="background-position:-74px 0;width:20px"></span>6</a></td>
+        <td><a class="fl" href="/search?q=solr&amp;newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;prmd=ivns&amp;ei=16koV4XmEZC9uAT4zYPwDw&amp;start=60&amp;sa=N"><span class="csb" style="background-position:-74px 0;width:20px"></span>7</a></td>
+        <td><a class="fl" href="/search?q=solr&amp;newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;prmd=ivns&amp;ei=16koV4XmEZC9uAT4zYPwDw&amp;start=70&amp;sa=N"><span class="csb" style="background-position:-74px 0;width:20px"></span>8</a></td>
+        <td><a class="fl" href="/search?q=solr&amp;newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;prmd=ivns&amp;ei=16koV4XmEZC9uAT4zYPwDw&amp;start=80&amp;sa=N"><span class="csb" style="background-position:-74px 0;width:20px"></span>9</a></td>
+        <td><a class="fl" href="/search?q=solr&amp;newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;prmd=ivns&amp;ei=16koV4XmEZC9uAT4zYPwDw&amp;start=90&amp;sa=N"><span class="csb" style="background-position:-74px 0;width:20px"></span>10</a></td>
+        <td class="b" style="text-align:left"><a class="fl" href="/search?q=solr&amp;newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;prmd=ivns&amp;ei=16koV4XmEZC9uAT4zYPwDw&amp;start=10&amp;sa=N" style="text-align:left"><span class="csb" style="background-position:-96px 0;width:71px"></span><span style="display:block;margin-left:53px">下一頁</span></a></td>
+       </tr>
+      </tbody>
+     </table>
+     <p class="_cD" id="bfl" style="margin:19px 0 0;text-align:center"><a href="/advanced_search?q=solr&amp;newwindow=1&amp;client=aff-cs-360chromium&amp;ie=UTF-8&amp;prmd=ivns">進階搜尋</a><a href="/support/websearch/bin/answer.py?answer=134479&amp;hl=zh-HK">搜尋說明</a> <a href="/tools/feedback/survey/html?productId=196&amp;query=solr&amp;hl=zh-HK">發送意見</a></p>
+     <div class="_cD" id="fll" style="margin:19px auto 19px auto;text-align:center">
+      <a href="/">Google 首頁</a> 
+      <a href="/intl/zh-TW/ads">廣告計劃</a> 
+      <a href="/intl/zh-TW/policies/privacy/">私隱權政策</a> 
+      <a href="/intl/zh-TW/policies/terms/">條款</a> 
+      <a href="/intl/zh-TW/about.html">關於 Google</a>
+     </div>
+    </div></td>
+   <td id="rhs_block" valign="top"></td>
+  </tr>
+ </tbody>
+</table>
+</div>
 		</div>
+
+   
      
      <!-- 分页展示 -->
      <div id="pageblock">
@@ -392,7 +661,6 @@
 			</ul>
 		</nav>
 	</div>
-	</c:if>
 	</div>
 	
 	<!-- 百度检索建议插件 -->
