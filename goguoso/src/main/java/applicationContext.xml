@@ -26,8 +26,13 @@
 		    </property>
 		</bean>
 <!-- 增加SpringMVC对上传的支持 -->
+<!--  
      <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" p:defaultEncoding="utf-8" p:maxUploadSize="10000000" p:uploadTempDir="fileUpload/temp"/>
+-->	
 	 <bean id="springRest" class="com.goguoso.search.http.SpringRestImp"></bean>
+	 <bean id="googleEngineSearcher" class="com.goguoso.search.searcher.GoogleEngineSearcher" 
+	 			p:siteUrl="https://www.google.com.hk/search?sourceid=chrome%26client=aff-cs-360chromium%26ie=UTF-8%26q="
+	 			p:httpRest-ref="springRest"></bean>
 	<!--bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" 
 		p:location="/WEB-INF/jdbc.properties" /> <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" 
 		p:driverClassName="${jdbc.driverClassName}" p:url="${jdbc.url}" p:username="${jdbc.username}" 
